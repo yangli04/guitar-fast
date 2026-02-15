@@ -15,7 +15,7 @@ import: GenomicFeatures, rtracklayer,AnnotationDbi, GenomicRanges,
         magrittr, ggplot2, methods, stats,utils,dplyr
 biocViews: Sequencing, SplicedAlignment, Alignment, DataImport, RNASeq,
         MethylSeq, QualityControl, Transcription
-Suggests: matrixStats
+Suggests: matrixStats, rmarkdown
 NeedsCompilation: no
 Packaged: 2025-10-30 04:31:15 UTC; biocbuild
 Encoding: UTF-8

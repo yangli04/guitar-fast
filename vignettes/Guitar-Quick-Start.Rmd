@@ -1,0 +1,243 @@
+---
+title: "Guitar: Quick Start Guide"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Guitar: Quick Start Guide}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 10,
+  fig.height = 6
+)
+```
+
+## Overview
+
+**Guitar** visualizes the distribution of RNA-related genomic features (e.g., m6A peaks, RNA binding sites) across transcript landmarks: transcription start site, start codon, stop codon, and transcription end site.
+
+It supports three transcript types:
+
+- **tx** -- all transcripts (promoter / RNA / tail)
+- **mrna** -- mRNA (promoter / 5'UTR / CDS / 3'UTR / tail)
+- **ncrna** -- long non-coding RNA (promoter / ncRNA / tail)
+
+## Installation
+
+```{r install, eval=FALSE}
+# From Bioconductor
+BiocManager::install("Guitar")
+
+# Or from local source
+# R CMD INSTALL Guitar
+```
+
+## 1. Basic Plot from BED File
+
+The simplest usage: provide a TxDb and one or more BED files.
+
+```{r basic}
+library(Guitar)
+library(GenomicFeatures)
+
+# Load toy transcriptome annotation
+txdb_file <- system.file("extdata", "mm10_toy.sqlite", package = "Guitar")
+txdb <- loadDb(txdb_file)
+
+# BED file with m6A peaks
+bed_file <- system.file("extdata", "m6A_mm10_exomePeak_1000peaks_bed12.bed",
+                         package = "Guitar")
+
+# Plot distribution on transcripts (no CI for speed)
+GuitarPlot(txTxdb = txdb,
+           stBedFiles = list(bed_file),
+           enableCI = FALSE,
+           pltTxType = c("tx"))
+```
+
+## 2. Enable Confidence Intervals
+
+Bootstrap confidence intervals show the statistical reliability of the density curve. The default uses 200 resamples, which balances speed and accuracy.
+
+```{r ci}
+GuitarPlot(txTxdb = txdb,
+           stBedFiles = list(bed_file),
+           enableCI = TRUE,
+           pltTxType = c("tx"))
+```
+
+For higher precision (at the cost of speed), increase `CI_ResamplingTime`:
+
+```{r ci_high, eval=FALSE}
+GuitarPlot(txTxdb = txdb,
+           stBedFiles = list(bed_file),
+           enableCI = TRUE,
+           CI_ResamplingTime = 1000,
+           pltTxType = c("tx"))
+```
+
+## 3. mRNA-specific Plot
+
+View distribution across the 5-component mRNA structure:
+
+```{r mrna}
+GuitarPlot(txTxdb = txdb,
+           stBedFiles = list(bed_file),
+           enableCI = FALSE,
+           pltTxType = c("mrna"))
+```
+
+## 4. Compare Multiple Groups
+
+Pass multiple BED files and name them:
+
+```{r multigroup}
+bed12 <- system.file("extdata", "m6A_mm10_exomePeak_1000peaks_bed12.bed",
+                      package = "Guitar")
+bed6  <- system.file("extdata", "m6A_mm10_exomePeak_1000peaks_bed6.bed",
+                      package = "Guitar")
+
+GuitarPlot(txTxdb = txdb,
+           stBedFiles = list(bed12, bed6),
+           stGroupName = c("BED12", "BED6"),
+           enableCI = FALSE,
+           pltTxType = c("mrna"))
+```
+
+## 5. Use GRangesList Input
+
+You can also pass genomic features as GRanges objects directly:
+
+```{r grangeslist}
+library(rtracklayer)
+
+gr1 <- blocks(import(bed12))
+gr2 <- import(bed6)
+
+GuitarPlot(txTxdb = txdb,
+           stGRangeLists = list(gr1, gr2),
+           stGroupName = c("Peaks-BED12", "Peaks-BED6"),
+           enableCI = FALSE,
+           pltTxType = c("tx"))
+```
+
+## 6. Plot All Transcript Types at Once
+
+Use `miscOutFilePrefix` to save one PDF per transcript type:
+
+```{r alltypes, eval=FALSE}
+GuitarPlot(txTxdb = txdb,
+           stBedFiles = list(bed_file),
+           enableCI = TRUE,
+           pltTxType = c("tx", "mrna", "ncrna"),
+           miscOutFilePrefix = "my_output")
+# Saves: my_output_tx_test.pdf, my_output_mrna_test.pdf, my_output_ncrna_test.pdf
+```
+
+## 7. Flanking Regions
+
+By default, 1kb promoter and tail flanking regions are shown (`headOrtail = TRUE`). To hide them:
+
+```{r noflank}
+GuitarPlot(txTxdb = txdb,
+           stBedFiles = list(bed_file),
+           enableCI = FALSE,
+           headOrtail = FALSE,
+           pltTxType = c("mrna"))
+```
+
+## 8. Pre-build GuitarTxdb for Reuse
+
+Building the transcriptome coordinate system takes ~1-2 seconds. If you're plotting multiple datasets against the same genome, build it once and save:
+
+```{r prebuild}
+# Build once
+guitarTxdb <- makeGuitarTxdb(txdb = txdb, txPrimaryOnly = FALSE)
+
+# Save to disk
+save(guitarTxdb, file = "my_guitarTxdb.RData")
+```
+
+Load and reuse in subsequent runs:
+
+```{r prebuild_load, eval=FALSE}
+# In a later session or script
+GuitarPlot(txGuitarTxdb = "my_guitarTxdb.RData",
+           stBedFiles = list(bed_file),
+           enableCI = TRUE,
+           pltTxType = c("tx"))
+```
+
+```{r cleanup, include=FALSE}
+unlink("my_guitarTxdb.RData")
+```
+
+## 9. Custom Component Proportions
+
+Control how wide each transcript component appears in the plot:
+
+```{r custom_prop}
+guitarTxdb <- makeGuitarTxdb(
+  txdb = txdb,
+  txMrnaComponentProp = c(0.1, 0.15, 0.6, 0.05, 0.1),
+  txLncrnaComponentProp = c(0.2, 0.6, 0.2),
+  pltTxType = c("tx", "mrna", "ncrna"),
+  txPrimaryOnly = FALSE
+)
+```
+
+The proportions correspond to the component order:
+
+- **mRNA**: promoter, 5'UTR, CDS, 3'UTR, tail
+- **ncRNA**: promoter, ncRNA, tail
+
+## 10. Using GTF/GFF Annotation
+
+Instead of a TxDb object, you can use a GTF or GFF file directly:
+
+```{r gtf, eval=FALSE}
+# From GTF
+GuitarPlot(txGTF = "path/to/annotation.gtf",
+           stBedFiles = list(bed_file),
+           enableCI = FALSE)
+
+# From GFF3
+GuitarPlot(txGFF = "path/to/annotation.gff3",
+           stBedFiles = list(bed_file),
+           enableCI = FALSE)
+
+# From genome version (downloads TxDb automatically, needs internet)
+GuitarPlot(txGenomeVer = "hg38",
+           stBedFiles = list(bed_file))
+```
+
+## Key Parameters
+
+| Parameter | Default | Description |
+|:---|:---|:---|
+| `txTxdb` | NULL | TxDb object for gene annotation |
+| `txGTF` / `txGFF` | NULL | Path to GTF/GFF annotation file |
+| `txGenomeVer` | NULL | Genome version (hg19, hg38, mm9, mm10) |
+| `txGuitarTxdb` | NULL | Path to saved GuitarTxdb RData file |
+| `stBedFiles` | NULL | List of BED file paths |
+| `stGRangeLists` | NULL | List of GRanges/GRangesList objects |
+| `stGroupName` | NULL | Custom group names |
+| `enableCI` | TRUE | Show bootstrap confidence intervals |
+| `CI_ResamplingTime` | 200 | Number of bootstrap resamples |
+| `pltTxType` | c("tx","mrna","ncrna") | Transcript types to plot |
+| `headOrtail` | TRUE | Include 1kb flanking regions |
+| `stSampleNum` | 10 | Points sampled per genomic feature |
+| `miscOutFilePrefix` | NA | Set to save PDFs (one per txType) |
+| `mapFilterTranscript` | TRUE | Filter transcript mappings by length |
+| `txPrimaryOnly` | FALSE | Use only primary (longest) transcripts |
+| `adjust` | 1 | Bandwidth adjustment for density estimation |
+
+## Session Info
+
+```{r session}
+sessionInfo()
+```
