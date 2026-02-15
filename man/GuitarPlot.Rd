@@ -5,7 +5,8 @@
 GuitarPlot
 }
 \description{
-Plot the transcriptomic distribution of genomic features
+Plot the transcriptomic distribution of genomic features.
+This is the main function of the GuitarFast package.
 }
 \usage{
 GuitarPlot(txGTF = NULL,
@@ -40,7 +41,7 @@ GuitarPlot(txGTF = NULL,
             overlapIndex = 1,
             siteLengthIndex = 1,
             adjust = 1, 
-            CI_ResamplingTime = 1000,
+            CI_ResamplingTime = 200,
             CI_interval = c(0.025,0.975),
             miscOutFilePrefix = NA)
                 
@@ -138,7 +139,7 @@ Index of site overlapping times. Default: 1.
 Index of site length. Default: 1.
 }
   \item{CI_ResamplingTime}{
-Resampling times in density drawing mode. Default: 1000.
+Resampling times in density drawing mode. Default: 200.
 }
   \item{CI_interval}{
 Upper and lower limits of the confidence interval. Default : c(0.025,0.975).
@@ -151,7 +152,10 @@ Save as a PDF name prefix, If the prefix is not specified, we will default the P
 }
 }
 \details{
-This function plots the transcriptomic distribution of genomic features. It is designed for a fast usage of the Guitar package, When you need to specify a parameter, you need to define the function when the package is called.
+This function plots the transcriptomic distribution of genomic features across
+transcript landmarks (TSS, start codon, stop codon, TES). It accepts BED files
+or GRangesList objects as input, and a TxDb, GTF/GFF, or pre-built GuitarTxdb
+as the transcriptome annotation.
 }
 \value{
 A figure showing the transcriptomic distribution of the genomic features will be generated. Post-editing with Adobe Illustrator or other graphic software is recommended.
@@ -163,11 +167,11 @@ Xiao Du <xiao.du@cumt.edu.cn>
 
 \examples{
 # read transcript information
-txdb_file <- system.file("extdata", "mm10_toy.sqlite", package="Guitar")
+txdb_file <- system.file("extdata", "mm10_toy.sqlite", package="GuitarFast")
 txdb <- loadDb(txdb_file)
 # read genomic features
 stGRangelist<-list()
-stBedFiles <- list(system.file("extdata", "m6A_mm10_exomePeak_1000peaks_bed12.bed", package="Guitar"))
+stBedFiles <- list(system.file("extdata", "m6A_mm10_exomePeak_1000peaks_bed12.bed", package="GuitarFast"))
 for (i in 1:length(stBedFiles)) {
   stGRangelist[[i]] <-  blocks(import(stBedFiles[[i]]))
 }

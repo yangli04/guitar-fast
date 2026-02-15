@@ -44,10 +44,10 @@ Xiao Du<xiao.du@cumt.edu.cn>
 
 \examples{
 # read genomic features
-stBedFile <- system.file("extdata", "m6A_mm10_exomePeak_1000peaks_bed12.bed", package="Guitar")
+stBedFile <- system.file("extdata", "m6A_mm10_exomePeak_1000peaks_bed12.bed", package="GuitarFast")
 site <-  blocks(import(stBedFile))
 # read transcript information
-txdb_file <- system.file("extdata", "mm10_toy.sqlite", package="Guitar")
+txdb_file <- system.file("extdata", "mm10_toy.sqlite", package="GuitarFast")
 txdb <- loadDb(txdb_file)
 guitarTxdb <- makeGuitarTxdb(txdb) 
 sitesGRanges <- samplePoints(list(site), 

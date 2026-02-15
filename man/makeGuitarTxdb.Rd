@@ -90,7 +90,7 @@ Xiao Du <xiao.du@cumt.edu.cn>
 
 \examples{
 # read transcript information
-txdb_file <- system.file("extdata", "mm10_toy.sqlite", package="Guitar")
+txdb_file <- system.file("extdata", "mm10_toy.sqlite", package="GuitarFast")
 txdb <- loadDb(txdb_file)
 guitarTxdb <- makeGuitarTxdb(txdb)     
 }

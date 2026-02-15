@@ -20,13 +20,8 @@ biocViews: Sequencing, SplicedAlignment, Alignment, DataImport, RNASeq,
         MethylSeq, QualityControl, Transcription
 Suggests: matrixStats, rmarkdown
 NeedsCompilation: no
-Packaged: 2025-10-30 04:31:15 UTC; biocbuild
 Encoding: UTF-8
 RoxygenNote: 6.1.1
 VignetteBuilder: knitr
-git_url: https://git.bioconductor.org/packages/Guitar
-git_branch: RELEASE_3_22
-git_last_commit: 4c03ea8
-git_last_commit_date: 2025-10-29
-Repository: Bioconductor 3.22
-Date/Publication: 2025-10-29
+URL: https://github.com/yliuchicago/GuitarFast
+BugReports: https://github.com/yliuchicago/GuitarFast/issues

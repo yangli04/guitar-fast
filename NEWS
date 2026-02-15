@@ -1,3 +1,11 @@
+Changes in version 1.0.0 (2026-02-15)
+- Renamed package from Guitar to GuitarFast
+- Added README.md with installation guide, usage examples, and benchmark results
+- Added Quick Start vignette (Guitar-Quick-Start.Rmd)
+- Added Benchmark vignette (GuitarFast-Benchmark.Rmd)
+- Updated all man pages to reference GuitarFast
+- Fixed GuitarTxdb save/load (original used read.table on binary data)
+
 Changes in version 2.26.1 (2026-02-15)
 - MAJOR: Replaced vapply(txRange, NROW, ...) with elementNROWS() (6.7s -> 0.008s)
 - MAJOR: Reduced default CI_ResamplingTime from 1000 to 200 (same CI quality, 5x fewer iterations)

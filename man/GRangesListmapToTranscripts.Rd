@@ -30,12 +30,12 @@ A GRangeslist object, the content is the site data filtered by the mapping.
 }
 \examples{
 # read transcript information and generate guitartxdb.
-txdb_file <- system.file("extdata", "mm10_toy.sqlite", package="Guitar")
+txdb_file <- system.file("extdata", "mm10_toy.sqlite", package="GuitarFast")
 txdb <- loadDb(txdb_file)
 guitarTxdb <- makeGuitarTxdb(txdb)
 
 #read the gene feature file.
-stBedFile <- system.file("extdata", "m6A_mm10_exomePeak_1000peaks_bed12.bed", package="Guitar")
+stBedFile <- system.file("extdata", "m6A_mm10_exomePeak_1000peaks_bed12.bed", package="GuitarFast")
 site <-  blocks(import(stBedFile))
 sitesGRanges <- GRangesListmapToTranscripts(site, mapFilterTranscript = FALSE,transcripts = guitarTxdb$tx$tx)
 }
