@@ -3,7 +3,8 @@ Type: Package
 Title: Guitar
 Version: 2.26.0
 Date: 2019-04-26
-Author: Xiao Du, Hui Liu, Lin Zhang, Jia Meng
+Author: Xiao Du, Hui Liu, Lin Zhang, Jia Meng,
+        Yang Li [performance optimization]
 Maintainer: Jia Meng <jia.meng@xjtlu.edu.cn>
 Description: The package is designed for visualization 
 	of RNA-related genomic features with respect to the landmarks of RNA transcripts, i.e.,
