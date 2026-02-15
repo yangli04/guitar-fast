@@ -1,8 +1,8 @@
 ---
-title: "Guitar: Quick Start Guide"
+title: "GuitarFast: Quick Start Guide"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Guitar: Quick Start Guide}
+  %\VignetteIndexEntry{GuitarFast: Quick Start Guide}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 
 ## Overview
 
-**Guitar** visualizes the distribution of RNA-related genomic features (e.g., m6A peaks, RNA binding sites) across transcript landmarks: transcription start site, start codon, stop codon, and transcription end site.
+**GuitarFast** is a performance-optimized fork of the [Guitar](https://bioconductor.org/packages/release/bioc/html/Guitar.html) Bioconductor package. It visualizes the distribution of RNA-related genomic features (e.g., m6A peaks, RNA binding sites) across transcript landmarks: transcription start site, start codon, stop codon, and transcription end site.
 
 It supports three transcript types:
 
@@ -39,11 +39,11 @@ This optimized version is **3-6x faster** than the original Bioconductor release
 ## Installation
 
 ```{r install, eval=FALSE}
-# From Bioconductor
-BiocManager::install("Guitar")
+# From GitHub
+# devtools::install_github("yourusername/GuitarFast")
 
 # Or from local source
-# R CMD INSTALL Guitar
+# R CMD INSTALL GuitarFast
 ```
 
 ## 1. Basic Plot from BED File
@@ -51,16 +51,16 @@ BiocManager::install("Guitar")
 The simplest usage: provide a TxDb and one or more BED files.
 
 ```{r basic}
-library(Guitar)
+library(GuitarFast)
 library(GenomicFeatures)
 
 # Load toy transcriptome annotation
-txdb_file <- system.file("extdata", "mm10_toy.sqlite", package = "Guitar")
+txdb_file <- system.file("extdata", "mm10_toy.sqlite", package = "GuitarFast")
 txdb <- loadDb(txdb_file)
 
 # BED file with m6A peaks
 bed_file <- system.file("extdata", "m6A_mm10_exomePeak_1000peaks_bed12.bed",
-                         package = "Guitar")
+                         package = "GuitarFast")
 
 # Plot distribution on transcripts (no CI for speed)
 GuitarPlot(txTxdb = txdb,
@@ -107,9 +107,9 @@ Pass multiple BED files and name them:
 
 ```{r multigroup}
 bed12 <- system.file("extdata", "m6A_mm10_exomePeak_1000peaks_bed12.bed",
-                      package = "Guitar")
+                      package = "GuitarFast")
 bed6  <- system.file("extdata", "m6A_mm10_exomePeak_1000peaks_bed6.bed",
-                      package = "Guitar")
+                      package = "GuitarFast")
 
 GuitarPlot(txTxdb = txdb,
            stBedFiles = list(bed12, bed6),

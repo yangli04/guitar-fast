@@ -2,7 +2,7 @@
 # Test GuitarTxdb save/load prebuild functionality
 # Run: micromamba run -n guitar Rscript tests/test_prebuild.R
 
-library(Guitar)
+library(GuitarFast)
 library(GenomicFeatures)
 
 passed <- 0
@@ -24,8 +24,8 @@ test <- function(name, expr) {
   })
 }
 
-txdb <- loadDb(system.file("extdata", "mm10_toy.sqlite", package = "Guitar"))
-bed1 <- system.file("extdata", "m6A_mm10_exomePeak_1000peaks_bed12.bed", package = "Guitar")
+txdb <- loadDb(system.file("extdata", "mm10_toy.sqlite", package = "GuitarFast"))
+bed1 <- system.file("extdata", "m6A_mm10_exomePeak_1000peaks_bed12.bed", package = "GuitarFast")
 save_file <- tempfile(fileext = ".RData")
 
 cat("== Save GuitarTxdb ==\n")

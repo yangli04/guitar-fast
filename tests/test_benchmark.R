@@ -2,11 +2,11 @@
 # Benchmark test - measures execution time of key operations
 # Run: micromamba run -n guitar Rscript tests/test_benchmark.R
 
-library(Guitar)
+library(GuitarFast)
 library(GenomicFeatures)
 
-txdb <- loadDb(system.file("extdata", "mm10_toy.sqlite", package = "Guitar"))
-bed1 <- system.file("extdata", "m6A_mm10_exomePeak_1000peaks_bed12.bed", package = "Guitar")
+txdb <- loadDb(system.file("extdata", "mm10_toy.sqlite", package = "GuitarFast"))
+bed1 <- system.file("extdata", "m6A_mm10_exomePeak_1000peaks_bed12.bed", package = "GuitarFast")
 
 bench <- function(label, expr) {
   t1 <- proc.time()

@@ -15,12 +15,12 @@ cat("============================================================\n")
 cat("  Guitar: Original vs Optimized Comparison\n")
 cat("============================================================\n\n")
 
-run_bench <- function(label) {
-  library(Guitar, quietly = TRUE)
+run_bench <- function(pkg_name) {
+  library(pkg_name, character.only = TRUE, quietly = TRUE)
   library(GenomicFeatures, quietly = TRUE)
 
-  txdb_file <- system.file("extdata", "mm10_toy.sqlite", package = "Guitar")
-  bed1      <- system.file("extdata", "m6A_mm10_exomePeak_1000peaks_bed12.bed", package = "Guitar")
+  txdb_file <- system.file("extdata", "mm10_toy.sqlite", package = pkg_name)
+  bed1      <- system.file("extdata", "m6A_mm10_exomePeak_1000peaks_bed12.bed", package = pkg_name)
   txdb <- loadDb(txdb_file)
 
   # Warm-up
@@ -58,7 +58,7 @@ run_bench <- function(label) {
   # Extract density data from no-CI plot for numerical comparison
   res$density <- ggplot_build(res$p_tx_noci)$data[[1]]
 
-  detach("package:Guitar", unload = TRUE)
+  detach(paste0("package:", pkg_name), character.only = TRUE, unload = TRUE)
   return(res)
 }
 
@@ -67,7 +67,7 @@ cat("--- Installing ORIGINAL package ---\n")
 invisible(system2("R", c("CMD", "INSTALL", "--no-multiarch", pkg_orig),
                   stdout = FALSE, stderr = FALSE))
 cat("--- Benchmarking ORIGINAL ---\n")
-orig <- run_bench("original")
+orig <- run_bench("Guitar")
 
 # Save original plots
 ggsave(file.path(outdir, "cmp_original_tx_noci.pdf"),  orig$p_tx_noci,   width = 10, height = 6)
@@ -79,7 +79,7 @@ cat("\n--- Installing OPTIMIZED package ---\n")
 invisible(system2("R", c("CMD", "INSTALL", "--no-multiarch", pkg_opt),
                   stdout = FALSE, stderr = FALSE))
 cat("--- Benchmarking OPTIMIZED ---\n")
-opt <- run_bench("optimized")
+opt <- run_bench("GuitarFast")
 
 # Save optimized plots
 ggsave(file.path(outdir, "cmp_optimized_tx_noci.pdf"),  opt$p_tx_noci,   width = 10, height = 6)

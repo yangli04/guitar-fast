@@ -2,7 +2,7 @@
 # Multi-group and GRangesList input tests
 # Run: micromamba run -n guitar Rscript tests/test_multigroup.R
 
-library(Guitar)
+library(GuitarFast)
 library(GenomicFeatures)
 library(rtracklayer)
 
@@ -25,9 +25,9 @@ test <- function(name, expr) {
   })
 }
 
-txdb <- loadDb(system.file("extdata", "mm10_toy.sqlite", package = "Guitar"))
-bed1 <- system.file("extdata", "m6A_mm10_exomePeak_1000peaks_bed12.bed", package = "Guitar")
-bed2 <- system.file("extdata", "m6A_mm10_exomePeak_1000peaks_bed6.bed", package = "Guitar")
+txdb <- loadDb(system.file("extdata", "mm10_toy.sqlite", package = "GuitarFast"))
+bed1 <- system.file("extdata", "m6A_mm10_exomePeak_1000peaks_bed12.bed", package = "GuitarFast")
+bed2 <- system.file("extdata", "m6A_mm10_exomePeak_1000peaks_bed6.bed", package = "GuitarFast")
 
 cat("== Two BED files, custom names ==\n")
 p1 <- GuitarPlot(txTxdb = txdb,
