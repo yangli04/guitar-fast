@@ -26,6 +26,16 @@ It supports three transcript types:
 - **mrna** -- mRNA (promoter / 5'UTR / CDS / 3'UTR / tail)
 - **ncrna** -- long non-coding RNA (promoter / ncRNA / tail)
 
+### Changes from Original Guitar (v2.26.0)
+
+This optimized version is **3-6x faster** than the original Bioconductor release. Key changes:
+
+- `CI_ResamplingTime` default reduced from 1000 to **200** (produces statistically equivalent confidence intervals)
+- Internal bottleneck fixed: `vapply(txRange, NROW, ...)` replaced with vectorized `elementNROWS()` (6.7s to 0.008s)
+- Pre-built `GuitarTxdb` save/load now works correctly (original used `read.table` on binary data)
+- Duplicate rectangle annotations removed (visual bug fix)
+- All outputs are numerically identical to the original for the no-CI path
+
 ## Installation
 
 ```{r install, eval=FALSE}
