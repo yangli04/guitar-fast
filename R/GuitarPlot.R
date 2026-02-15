@@ -235,7 +235,9 @@
     
     # load the txGuitarTxdb file
     print(paste("load", txGuitarTxdb, "as GuitarTxdb...", sep = " "))
-    guitarTxdb <- read.table(txGuitarTxdb,sep="\t")
+    load_env <- new.env(parent = emptyenv())
+    load(txGuitarTxdb, envir = load_env)
+    guitarTxdb <- load_env$guitarTxdb
   } else {
     txdb <- .getTxdb(
       txGTF = txGTF,
