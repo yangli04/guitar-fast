@@ -258,8 +258,7 @@ makeGuitarTxdb <- function(txdb,
   # filter out invalid tx that not on the same chromosome
   tx <- tx[nameFilterTx]
   txRange <- range(tx)
-  #nameFilterTx <- names(tx[elementNROWS(txRange) == 1])
-  nameFilterTx <- names(tx[vapply(txRange, NROW,numeric(1)) == 1])
+  nameFilterTx <- names(tx[elementNROWS(txRange) == 1])
   tx <- tx[nameFilterTx]
   print(paste("total", length(nameFilterTx), "transcripts left after check chromosome validity ..."))
   

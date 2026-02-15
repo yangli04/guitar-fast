@@ -132,26 +132,24 @@
 
     if (enableCI)
     {
-      point_ind <- seq_along(siteID)
-      names(point_ind) <- names(siteID)
-      point_ind_grouped <- split(point_ind, names(point_ind))
-      group_names <- names(point_ind_grouped)
-      nGroups <- length(group_names)
+      # Pre-flatten group structure: map each point to its group integer ID
+      grp_factor <- as.integer(factor(names(siteID)))
+      nGroups <- max(grp_factor)
+      # Build flat index vectors per group for fast lookup
+      grp_indices <- split(seq_along(siteID), grp_factor)
 
       # Pre-allocate result matrix (256 rows x CI_ResamplingTime cols)
       fit2 <- matrix(0, nrow = 256L, ncol = CI_ResamplingTime)
 
-      # Batch-generate all resampling indices at once
+      # Batch-generate all resampling group selections at once
       resample_idx_mat <- matrix(
         sample.int(nGroups, nGroups * CI_ResamplingTime, replace = TRUE),
         nrow = nGroups, ncol = CI_ResamplingTime
       )
 
       for (k in seq_len(CI_ResamplingTime)) {
-        point_ind_resampled <- unlist(point_ind_grouped[group_names[resample_idx_mat[, k]]], use.names = FALSE)
-        siteSampledID <- siteID[point_ind_resampled]
-        weightSampled <- sitesWeight[point_ind_resampled]
-        fit2[, k] <- suppressWarnings(density(siteSampledID, adjust = adjust, from = 0, to = 1, n = 256, weight = weightSampled)$y)
+        point_ind_resampled <- unlist(grp_indices[resample_idx_mat[, k]], use.names = FALSE)
+        fit2[, k] <- suppressWarnings(density(siteID[point_ind_resampled], adjust = adjust, from = 0, to = 1, n = 256, weight = sitesWeight[point_ind_resampled])$y)
       }
 
       # Use matrixStats::rowQuantiles (C-optimized) with fallback
@@ -399,7 +397,7 @@ GuitarPlot <- function(txGTF = NULL,
                             overlapIndex = 1,
                             siteLengthIndex = 1,
                             adjust = 1, 
-                            CI_ResamplingTime = 1000,
+                            CI_ResamplingTime = 200,
                             CI_interval = c(0.025,0.975),
                             miscOutFilePrefix = NA)
 {
