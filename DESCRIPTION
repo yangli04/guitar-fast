@@ -11,7 +11,7 @@ Description: Performance-optimized fork of the Guitar Bioconductor package.
 	to the landmarks of RNA transcripts (TSS, start codon, stop codon, TES).
 	3-6x faster than the original Guitar package through vectorized operations
 	and reduced bootstrap iterations. Based on Guitar v2.26.0 by Cui et al. (2016).
-License: GPL-2
+License: GPL-2 | file LICENSE
 Depends: GenomicFeatures, rtracklayer,AnnotationDbi, GenomicRanges,
         magrittr, ggplot2, methods, stats,utils ,knitr,dplyr
 import: GenomicFeatures, rtracklayer,AnnotationDbi, GenomicRanges,

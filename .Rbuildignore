@@ -1,0 +1,9 @@
+^\.git$
+^\.gitignore$
+^\.claude$
+^\.claude/.*$
+^CLAUDE\.md$
+^OPTIMIZATION\.md$
+^Rplots\.pdf$
+^.*\.Rproj$
+^\.Rproj\.user$
