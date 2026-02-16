@@ -61,6 +61,13 @@ For faster confidence interval computation:
 install.packages("matrixStats")
 ```
 
+## Vignettes
+
+| Vignette | Description | Links |
+|:---------|:------------|:------|
+| Quick Start Guide | Installation, basic usage, all input formats | [HTML](https://yliuchicago.github.io/GuitarFast/Guitar-Quick-Start.html) / [source](vignettes/Guitar-Quick-Start.Rmd) |
+| Benchmark | Performance comparison with original Guitar | [HTML](https://yliuchicago.github.io/GuitarFast/GuitarFast-Benchmark.html) / [source](vignettes/GuitarFast-Benchmark.Rmd) |
+
 ## Quick Start
 
 ```r
@@ -245,16 +252,3 @@ The density curves produced by GuitarFast are **numerically identical** to the o
 ## License
 
 GPL-2, same as the original Guitar package. Based on Guitar v2.26.0 by Cui et al. (2016).
-
-## Citation
-
-If you use GuitarFast in your research, please cite the original Guitar paper:
-
-> Cui X, Wei Z, Zhang L, Liu H, Sun L, Zhang SW, Huang Y, Meng J. (2016).
-> Guitar: An R/Bioconductor Package for Gene Annotation Guided Transcriptomic
-> Analysis of RNA-Related Genomic Features. *BioMed Research International*, 2016.
-
-## Authors
-
-- Xiao Du, Hui Liu, Lin Zhang, Jia Meng -- original Guitar package
-- Yang Li -- performance optimization (GuitarFast)
