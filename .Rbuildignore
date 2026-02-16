@@ -7,3 +7,4 @@
 ^Rplots\.pdf$
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^docs$

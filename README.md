@@ -65,8 +65,8 @@ install.packages("matrixStats")
 
 | Vignette | Description | Links |
 |:---------|:------------|:------|
-| Quick Start Guide | Installation, basic usage, all input formats | [HTML](https://yliuchicago.github.io/GuitarFast/Guitar-Quick-Start.html) / [source](vignettes/Guitar-Quick-Start.Rmd) |
-| Benchmark | Performance comparison with original Guitar | [HTML](https://yliuchicago.github.io/GuitarFast/GuitarFast-Benchmark.html) / [source](vignettes/GuitarFast-Benchmark.Rmd) |
+| Quick Start Guide | Installation, basic usage, all input formats | [HTML](https://yangli04.github.io/guitar-fast/Guitar-Quick-Start.html) / [source](vignettes/Guitar-Quick-Start.Rmd) |
+| Benchmark | Performance comparison with original Guitar | [HTML](https://yangli04.github.io/guitar-fast/GuitarFast-Benchmark.html) / [source](vignettes/GuitarFast-Benchmark.Rmd) |
 
 ## Quick Start
 
