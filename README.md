@@ -16,26 +16,9 @@ Three transcript views are supported:
 
 ## Installation
 
-### From GitHub
+### Prerequisites
 
-```r
-# install.packages("devtools")
-devtools::install_github("yliuchicago/GuitarFast")
-```
-
-### From Source
-
-```bash
-# Clone the repository
-git clone https://github.com/yliuchicago/GuitarFast.git
-
-# Install with R
-R CMD INSTALL GuitarFast
-```
-
-### Dependencies
-
-GuitarFast depends on several Bioconductor packages. If you don't have them:
+GuitarFast depends on Bioconductor packages. Install them first:
 
 ```r
 if (!requireNamespace("BiocManager", quietly = TRUE))
@@ -45,7 +28,34 @@ BiocManager::install(c("GenomicFeatures", "rtracklayer",
                        "AnnotationDbi", "GenomicRanges"))
 ```
 
-Optional (for faster CI computation):
+### From GitHub (recommended)
+
+```r
+# Using remotes (lightweight)
+install.packages("remotes")
+remotes::install_github("yliuchicago/GuitarFast")
+
+# Or using devtools
+# install.packages("devtools")
+# devtools::install_github("yliuchicago/GuitarFast")
+```
+
+To install with vignettes:
+
+```r
+remotes::install_github("yliuchicago/GuitarFast", build_vignettes = TRUE)
+```
+
+### From Source
+
+```bash
+git clone https://github.com/yliuchicago/GuitarFast.git
+R CMD INSTALL GuitarFast
+```
+
+### Optional
+
+For faster confidence interval computation:
 
 ```r
 install.packages("matrixStats")
